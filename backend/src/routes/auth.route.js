@@ -1,6 +1,6 @@
 import express from 'express';
 import { chackAuth,updateProfile,signup, login, logout } from '../controllers/auth.controllar.js';
-import protectRoute from '../middleware/';
+import {protectRoute} from '../middleware/auth.middelware.js';
 
 const router = express.Router();
 

@@ -63,28 +63,34 @@ export const signup =async (req, res) => {
 export const login = async(req, res) => {
     console.log("login controller called");
     const { email, password } = req.body;
-    try{
+
+    try {
         const user = await User.findOne({ email });
-        if(!user){
+        if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-      const isPasswordCorrect=  await bcrypt.compare(password, user.password);
-      if(!isPasswordCorrect){
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        console.log("isPasswordCorrect:", isPasswordCorrect);
+        if (!isPasswordCorrect) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
-        res.status(200).json({
+            generateToken(user._id, res);
+
+
+        return res.status(200).json({
             message: "Login successful",
             _id: user._id,
             fullName: user.fullname,
             email: user.email,
             profilePicture: user.profilePic || null,
         });
-    }catch(err){
+
+    } catch (err) {
         console.error("ERROR in login controller:", err.message);
         return res.status(500).json({ message: "Internal Server Error" });
-
     }
-}
+};
+
 export const logout = (req, res) => {
   try {
     res.clearCookie("jwt", {
@@ -128,7 +134,7 @@ export const updateProfile = async (req, res) => {
 
 export const chackAuth = (req, res) => {
   try{
-    res.status(200).jason(res.user)
+    res.status(200).json(res.user)
   }
   catch(err){
     console.error("ERROR in chackAuth controller:", err.message);
