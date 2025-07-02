@@ -1,6 +1,6 @@
-import User from "../models/user.model.js";
+import User from "../modules/user_model.js";
 
-import Message from "../models/message.model.js";
+import Message from "../modules/message_model.js";
 
 export const getUsersForSidebar= async(req, res) => {
     try {
