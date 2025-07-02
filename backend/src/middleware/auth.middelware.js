@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../modules/user_model.js"; // ✅ correct import
+import userModule from "../modules/user_model.js"; // ✅ correct import
 
 export const protectRoute = async (req, res, next) => {
     try {
@@ -13,7 +13,7 @@ export const protectRoute = async (req, res, next) => {
             return res.status(401).json({ message: "Unauthorized access" });
         }
 
-        const user = await User.findById(decoded.userId).select("-password -__v"); // ✅ no shadowing
+        const user = await userModule.findById(decoded.userId).select("-password -__v"); // ✅ no shadowing
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
