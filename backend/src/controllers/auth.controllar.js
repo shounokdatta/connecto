@@ -8,6 +8,7 @@ export const signup =async (req, res) => {
   console.log("signup controller called");
 
   const { email, fullName, password } = req.body;
+  console.log("Received body:", req.body);
 
   try {
     // 1. Validate inputs
@@ -32,7 +33,7 @@ export const signup =async (req, res) => {
     // 4. Create new user
     const newUser = new User({
       fullname: fullName,
-      email,
+      email: email,
       password: hashedPassword,
     });
      // 5. Generate token & set cookie

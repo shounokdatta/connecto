@@ -9,12 +9,16 @@ import cors from 'cors'
 dotenv.config();
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true
+  origin: function (origin, callback) {
+    callback(null, process.env.CLIENT_URL || "http://localhost:5173");
+  },
+  credentials: true,
 }));
+
 
 const port = 5000;
 

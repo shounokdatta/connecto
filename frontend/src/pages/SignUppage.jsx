@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import AuthImagePattern from '../components/AuthImagePattern';
 
 export default function SignUppage() {
-  console.log("SignUp page is running");
+  console.log("SignUp page is running1");
 
   const [showPassword, setShowPassword] = useState(false);
+   console.log("SignUp page is running1");
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,8 +16,11 @@ export default function SignUppage() {
   });
 
   const { SignUp, isSigningup: isSigningUp } = useAuthStore();
+   
 
   const handleSubmit = async (e) => {
+     console.log(e);
+    console.log("From submited");
     e.preventDefault();
 
     // Simple validation
@@ -125,6 +129,7 @@ export default function SignUppage() {
 
             {/* Submit Button */}
             <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+              { console.log(formData)}
               {isSigningUp ? (
                 <>
                   <Loader2 className="size-5 animate-spin" />
