@@ -1,1 +1,8 @@
-  console.log("App is running");
+
+export default function Homepage() {
+  return (
+    <div>
+
+    </div>
+  )
+}
