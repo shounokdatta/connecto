@@ -7,8 +7,12 @@ import cloudinary from "cloudinary";
 export const signup =async (req, res) => {
   console.log("signup controller called");
 
-  const { email, fullName, password } = req.body;
-  console.log("Received body:", req.body);
+  const { email,  password } = req.body;
+  const fullName = req.body.fullname || req.body.name; // Handle both 'fullname' and 'name' fields
+  // console.log("Received body:", req.body);
+  console.log("Email:", email);
+  console.log("Full Name:", fullName);
+  console.log("Password:", password);
 
   try {
     // 1. Validate inputs
@@ -33,7 +37,7 @@ export const signup =async (req, res) => {
     // 4. Create new user
     const newUser = new User({
       fullname: fullName,
-      email: email,
+      email,
       password: hashedPassword,
     });
      // 5. Generate token & set cookie

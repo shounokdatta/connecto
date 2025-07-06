@@ -24,10 +24,11 @@ export const useAuthStore = create((set) => ({
     const res = await axiosInstance.post('/signup', formData);
     
 
-    set({
-      authUser: res.data.name || res.data,
-      email: res.data.email,
-      password: res.data.password
+    set({ 
+      Email: res.data.Email,
+      fullName: res.data.Name,
+      password: res.data.password,
+        
     });
   } catch (err) {
     console.error('Signup failed:', err.response?.data || err.message);

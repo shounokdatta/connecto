@@ -5,14 +5,13 @@ import { Link } from 'react-router-dom';
 import AuthImagePattern from '../components/AuthImagePattern';
 
 export default function SignUppage() {
-  console.log("SignUp page is running1");
 
   const [showPassword, setShowPassword] = useState(false);
-   console.log("SignUp page is running1");
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
+ 
   });
 
   const { SignUp, isSigningup: isSigningUp } = useAuthStore();
@@ -129,7 +128,7 @@ export default function SignUppage() {
 
             {/* Submit Button */}
             <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
-              { console.log(formData)}
+              
               {isSigningUp ? (
                 <>
                   <Loader2 className="size-5 animate-spin" />
