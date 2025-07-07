@@ -5,9 +5,12 @@ import { toast } from 'react-hot-toast';
 
 export const useAuthStore = create((set) => ({
   authUser: null,
-  isSigningup: false,
+  isSigningUp: false,
   isLoggingIn: false,
-
+  isUpdatingProfile: false,
+  isCheckingAuth: true,
+  onlineUsers: [],
+  socket: null,
   checkAuth: async () => {
     console.log("checkAuth is running")
     try {
@@ -54,6 +57,21 @@ login: async (data) => {
     set({ isLoggingIn: false });
   }
   },
+  updateProfile: async (formData) => {
+  set({ isUpdatingProfile: true });
+
+  try {
+    const res = await axiosInstance.put("/update-Profile", formData); // Adjust endpoint if needed
+    set({ authUser: res.data.user }); // Assuming backend returns updated user
+    toast.success("Profile updated");
+  } catch (err) {
+    console.error("Profile update failed:", err?.response?.data || err.message);
+    toast.error(err?.response?.data?.message || "Update failed");
+  } finally {
+    set({ isUpdatingProfile: false });
+  }
+},
+
  logout: async () => {
     try {
       await axiosInstance.post('/logout');
@@ -63,7 +81,26 @@ login: async (data) => {
       console.error('Logout failed:', err?.response?.data || err.message);
       toast.error('Logout failed');
     }
-  }
+  },
 
+connectSocket: () => {
+    const { authUser } = get();
+    if (!authUser || get().socket?.connected) return;
 
+    const socket = io(BASE_URL, {
+      query: {
+        userId: authUser._id,
+      },
+    });
+    socket.connect();
+
+    set({ socket: socket });
+
+    socket.on("getOnlineUsers", (userIds) => {
+      set({ onlineUsers: userIds });
+    });
+  },
+  disconnectSocket: () => {
+    if (get().socket?.connected) get().socket.disconnect();
+  },
 }));

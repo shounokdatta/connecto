@@ -115,7 +115,7 @@ export const logout = (req, res) => {
 export const updateProfile = async (req, res) => {
   console.log("updateProfile controller called");
   try{
-    const {profilepic}=re1.body;
+    const {profilepic}=req.body;
     const userid=req.user._id;
 
    if(!profilepic){
