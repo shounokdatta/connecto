@@ -21,7 +21,7 @@
     }, [checkAuth]);
 
       console.log(authUser);
-   if (false) { return (
+   if (!checkAuth && !authUser) { return (
     <div className='flex items-center justify-center h-screen'>
        <Loader className='size-10 animate-spin'/>
     </div>
@@ -32,11 +32,11 @@
           <>
           <Navbar/>
           <Routes>  
-            <Route path="/" element={<Homepage/> }/>
-            <Route path="/signUp" element={ <SignUppage/>}/>
-            <Route path="/login" element={ <Loginpage/>}/>
-            <Route path="/setting" element={<Settingpage/>}/>
-            <Route path="/profile" element={<Profilepage/>}/>
+          <Route path="/" element={authUser ? <Homepage /> : <Navigate to="/login" />} />
+        <Route path="/signup" element={!authUser ? <SignUppage /> : <Navigate to="/" />} />
+        <Route path="/login" element={!authUser ? <Loginpage /> : <Navigate to="/" />} />
+        <Route path="/settings" element={<Settingpage />} />
+        <Route path="/profile" element={authUser ? <Profilepage /> : <Navigate to="/login" />} />
             
             
             </Routes>

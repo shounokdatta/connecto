@@ -15,12 +15,17 @@ export default function SignUppage() {
   });
 
   const { SignUp, isSigningup: isSigningUp } = useAuthStore();
+
+  
    
 
   const handleSubmit = async (e) => {
      console.log(e);
     console.log("From submited");
+
     e.preventDefault();
+
+    
 
     // Simple validation
     if (!formData.name || !formData.email || !formData.password) {
