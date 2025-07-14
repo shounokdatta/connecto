@@ -7,7 +7,10 @@
   import Profilepage from './pages/Profilepage';
   import {Routes,Route,Navigate} from 'react-router-dom'; 
   import { Loader } from 'lucide-react';
+  import { Toaster } from "react-hot-toast";
+
   import { useAuthStore } from './store/use.store';
+  import {useThemeStore} from "./store/use.Them"
 
 
 
@@ -15,12 +18,13 @@
 
     console.log("App is running");
     
-    const { authUser, checkAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+   const { theme } = useThemeStore();
     useEffect(() => {
      checkAuth();
     }, [checkAuth]);
 
-      console.log(authUser);
+      console.log(onlineUsers);
    if (!checkAuth && !authUser) { return (
     <div className='flex items-center justify-center h-screen'>
        <Loader className='size-10 animate-spin'/>
@@ -40,6 +44,7 @@
             
             
             </Routes>
+            <Toaster />
           </>
 
 

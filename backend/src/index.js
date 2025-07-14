@@ -4,10 +4,10 @@ import authRoutes from './routes/auth.route.js';
 import connectDB from './lib/db.js';
 import cookieParser from 'cookie-parser';
 import messageRoutes from './routes/message.route.js';
+import {app,server} from "./lib/socket.js"
 import cors from 'cors'
 
 dotenv.config();
-const app = express();
 
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json({ limit: '10mb' }));
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
     res.send("server is running");
 }); 
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log("Server is running on port " + port);
     connectDB();
 });

@@ -1,7 +1,7 @@
 import User from "../modules/user_model.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../lib/utils.js";
-import cloudinary from "cloudinary";
+import cloudinary from "../lib/cloudnary.js";
 
 
 export const signup =async (req, res) => {
@@ -54,7 +54,7 @@ export const signup =async (req, res) => {
         id: newUser._id,
         fullname: newUser.fullname,
         email: newUser.email,
-        profilePicture: newUser.profilePic || null,
+        profilePicture: newUser.profilepic || null,
       },
     });
 
@@ -87,7 +87,7 @@ export const login = async(req, res) => {
             _id: user._id,
             fullName: user.fullname,
             email: user.email,
-            profilePicture: user.profilePic || null,
+            profilePicture: user.profilepic || null,
         });
 
     } catch (err) {
@@ -114,20 +114,23 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   console.log("updateProfile controller called");
+  // console.log("Request body:", req);
   try{
     const {profilepic}=req.body;
-    const userid=req.user._id;
-
+    const userid=req.user._id; // Assuming req.user is set by the protectRoute middleware
+    
    if(!profilepic){
        return res.status(400).json({ message: "Profile picture is required" });
 
      }
      const uploadResponse= await cloudinary.uploader.upload(profilepic); 
+     console.log("Upload response:", uploadResponse);
     const updatedUser = await User.findByIdAndUpdate(
     userid,
-    { profilePic: uploadResponse.secure_url },
+    { profilepic: uploadResponse.secure_url},
     { new: true }
   )
+  console.log("Updated user:", updatedUser);
   res.status(200).json(updatedUser)
 
   } catch(err){
@@ -138,8 +141,9 @@ export const updateProfile = async (req, res) => {
 };
 
 export const chackAuth = (req, res) => {
+  console.log(req.user);
   try{
-    res.status(200).json(res.user)
+    res.status(200).json(req.user)
   }
   catch(err){
     console.error("ERROR in chackAuth controller:", err.message);

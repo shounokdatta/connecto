@@ -2,8 +2,12 @@ import { useState } from "react";
 import { useAuthStore } from "../store/use.store";
 import { Camera, Mail, User } from "lucide-react";
 
+
+
+
 const ProfilePage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
+  
   const [selectedImg, setSelectedImg] = useState(null);
 
   const handleImageUpload = async (e) => {
@@ -17,6 +21,7 @@ const ProfilePage = () => {
     reader.onload = async () => {
       const base64Image = reader.result;
       setSelectedImg(base64Image);
+      console.log("this is serSelectImage on uplode profile pic",base64Image);
       await updateProfile({ profilepic: base64Image }); // ✅ match backend naming
 
     };
@@ -35,8 +40,9 @@ const ProfilePage = () => {
 
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
+              {console.log("this is authUser:-",authUser.profilePicture)}
               <img
-                src={selectedImg || authUser.profilePic || "/avatar.png"}
+                src={selectedImg || authUser.profilePicture || "/avatar.png"}
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
               />

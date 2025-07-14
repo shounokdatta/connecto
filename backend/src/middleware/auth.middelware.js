@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import userModule from "../modules/user_model.js"; // ✅ correct import
+import userModule from "../modules/user_model.js";
 
 export const protectRoute = async (req, res, next) => {
     try {
@@ -18,7 +18,7 @@ export const protectRoute = async (req, res, next) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        req.user = user; // ✅ lowercase and correct
+        req.user = user; 
         next();
     } catch (err) {
         console.log("ERROR in protectRoute middleware:", err.message);
