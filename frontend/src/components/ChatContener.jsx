@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useChatStore } from "../store/chat.store";
 import { useAuthStore } from "../store/use.store";
 import ChatHeader from "./ChatHeader";
@@ -8,7 +8,7 @@ import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
   const {
-    messages = [],
+    messages=[],
     getMessages,
     isMessagesLoading,
     selectedUser,
@@ -19,18 +19,20 @@ const ChatContainer = () => {
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
-  useEffect(() => {
+  const loadMessagesAndSubscribe = useCallback(() => {
     if (selectedUser?._id) {
       getMessages(selectedUser._id);
+      subscribeToMessages();
     }
-
-    // Optional chaining to prevent "not a function" error
-    subscribeToMessages?.();
-
     return () => {
-      unsubscribeFromMessages?.();
+      unsubscribeFromMessages();
     };
-  }, [selectedUser?._id, getMessages]);
+  }, [selectedUser?._id]);
+
+  useEffect(() => {
+    const cleanup = loadMessagesAndSubscribe();
+    return cleanup;
+  }, [loadMessagesAndSubscribe]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -51,7 +53,6 @@ const ChatContainer = () => {
   return (
     <div className="pt-16 flex-1 flex flex-col overflow-auto">
       <ChatHeader />
-
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
@@ -61,9 +62,6 @@ const ChatContainer = () => {
           >
             <div className="chat-image avatar">
               <div className="size-10 rounded-full border">
-                
-               
-                
                 <img
                   src={
                     message.senderId === authUser._id
@@ -94,7 +92,6 @@ const ChatContainer = () => {
           </div>
         ))}
       </div>
-
       <MessageInput />
     </div>
   );
