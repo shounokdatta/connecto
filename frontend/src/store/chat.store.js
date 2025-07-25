@@ -2,7 +2,6 @@ import {create} from 'zustand';
 import toast from 'react-hot-toast';
 import {axiosInstance} from "../lib/axios";
 import { disconnect } from 'mongoose';
-  const { subscribe,unsubscribe} = await import('diagnostics_channel');
 
 
 import {useAuthStore} from "./use.store"
@@ -57,12 +56,13 @@ export const useChatStore = create((set, get) => ({
         const socket=useAuthStore.getState().socket;
 
         socket.on("newMessage",(newMessage)=>{
+        console.log("Received new message:", newMessage);
         const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
         if (!isMessageSentFromSelectedUser) return;
 
-            set({
-                message: [...get().messages,newMessage],
-            });
+        set({
+            messages: [...get().messages, newMessage],
+        });
         });
     },
 

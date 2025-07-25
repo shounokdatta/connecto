@@ -30,7 +30,45 @@ const MessageInput = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    const trimmedText = text.trim(); // ✅ define it here
+
     if (!text.trim() && !imagePreview) return;
+    try {
+    // ✅ Step 1: If starts with "/ai", call AI API
+    if (trimmedText.startsWith("/ai")) {
+      const prompt = trimmedText.replace("/ai", "").trim();
+
+      const res = await fetch("/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
+
+      const data = await res.json();
+      const aiResponse = data.reply || "AI could not generate a response.";
+
+      // ✅ Step 2: Send AI message using your existing sendMessage logic
+      await sendMessage({
+        text: aiResponse,
+        image: null,
+        isAI: true, // Optional: flag for styling
+      });
+    } else {
+      // ✅ Step 3: Regular user message
+      await sendMessage({
+        text: trimmedText,
+        image: imagePreview,
+      });
+    }
+
+    // ✅ Step 4: Reset UI
+    setText("");
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  } catch (error) {
+    console.error("Failed to send message:", error);
+    toast.error("Error sending message.",error);
+  }
 
     try {
       await sendMessage({
