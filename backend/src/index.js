@@ -40,7 +40,12 @@ app.get("/", (req, res) => {
     res.send("server is running");
 }); 
 
-server.listen(port, () => {
-    console.log("Server is running on port " + port);
-    connectDB();
-});
+connectDB()
+  .then(() => {
+    server.listen(port, () => {
+      console.log("✅ Server is running on port " + port);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection failed", err);
+  });
