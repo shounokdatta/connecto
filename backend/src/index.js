@@ -22,7 +22,7 @@ app.use(cors({
 }));
 
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 3000;
 const __dirname=path.resolve();
 
 app.use("/api/auth", authRoutes);
