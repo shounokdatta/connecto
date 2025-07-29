@@ -34,18 +34,22 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(distPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
+    res.sendFile(path.join(__dirname,"../frontend","dist","index.html"));
+
+  })
 }
 
 // Root test route
 app.get("/", (req, res) => {
-  res.send("Server is running");
-});
+    res.send("server is running");
+}); 
 
-// Start
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, '0.0.0.0', async () => {
-  console.log(`✅ Server running on port ${PORT}`);
-  await connectDB();
-});
+connectDB()
+  .then(() => {
+    server.listen(port,'0.0.0.0', () => {
+      console.log("✅ Server is running on port " + port);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection failed", err);
+  });
