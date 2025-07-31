@@ -12,6 +12,7 @@ import messageRoutes from './routes/message.route.js';
 
 // Setup
 dotenv.config();
+const port = process.env.PORT || 5000; 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -28,28 +29,23 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
 
-// Static file serving for production
+// Serve static files in production
 if (process.env.NODE_ENV === "production") {
   const distPath = path.join(__dirname, "../frontend/dist");
   app.use(express.static(distPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname,"../frontend","dist","index.html"));
-
-  })
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
 }
 
 // Root test route
 app.get("/", (req, res) => {
-    res.send("server is running");
-}); 
+  res.send("server is running");
+});
 
-connectDB()
-  .then(() => {
-    server.listen(port,'0.0.0.0', () => {
+// Connect to DB and start server
+connectDB();
+    server.listen(port, () => {
       console.log("✅ Server is running on port " + port);
-    });
   })
-  .catch((err) => {
-    console.error("❌ MongoDB connection failed", err);
-  });
