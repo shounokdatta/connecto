@@ -8,8 +8,7 @@ export const signup =async (req, res) => {
   console.log("signup controller called");
 
   const { email,  password } = req.body;
-  const fullName = req.body.fullname || req.body.name; // Handle both 'fullname' and 'name' fields
-  // console.log("Received body:", req.body);
+  const fullName = req.body.fullname || req.body.name; 
   console.log("Email:", email);
   console.log("Full Name:", fullName);
   console.log("Password:", password);
