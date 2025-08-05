@@ -41,6 +41,11 @@ app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
+// Handle 404 errors
+app.use((req, res) => {
+  res.status(404).json({ message: "Not Found" });
+});
+
 
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
