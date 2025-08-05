@@ -32,6 +32,7 @@ export const useAuthStore = create((set,get) => ({
  SignUp: async (formData) => {
   set({ isSigningup: true });
   console.log(formData);
+  const Login=new useAuthStore();
   try {
     const res = await axiosInstance.post('/auth/signup', formData);
     
@@ -42,6 +43,7 @@ export const useAuthStore = create((set,get) => ({
       password: res.data.password,
         
     });
+    toast.success('Signup successful');
   } catch (err) {
     console.error('Signup failed:', err.response?.data || err.message);
   } finally {
