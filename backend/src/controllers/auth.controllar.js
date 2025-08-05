@@ -45,6 +45,7 @@ export const signup =async (req, res) => {
     generateToken(newUser._id, res);
 
     await newUser.save();
+    
 
 
     // 6. Respond with success
