@@ -36,13 +36,14 @@ app.use(express.static(frontendPath));
 
 // For all other routes, serve React's index.html
 // Catch-all for React Router (must be after API routes)
-// app.get(/^(?!\/api).*/, (req, res) => {
-//   console.log(frontendPath);
-//   res.sendFile(path.join(frontendPath, "index.html"));
-// });
+app.get(/^(?!\/api).*/, (req, res) => {
+  console.log(frontendPath);
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
 
-app.get("/", (req, res) => {
-  res.send("Welcome to Connecto API");
+// Handle 404 errors
+app.use((req, res) => {
+  res.status(404).json({ message: "Not Found" });
 });
 
 
