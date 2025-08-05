@@ -41,6 +41,10 @@ app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to Connecto API");
+});
+
 
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
