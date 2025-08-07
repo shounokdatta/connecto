@@ -1,21 +1,13 @@
-// filepath: d:\web dev\connecto\connecto\frontend\vite.config.js
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
+
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(),tailwindcss()],
   build: {
-    outDir: 'dist',
+    outDir: 'dist', // this is default for Vite
     assetsDir: 'assets',
-    sourcemap: false,
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
   },
-  server: {
-    port: 5173,
-    host: true
-  }
 })

@@ -3,7 +3,7 @@ import { axiosInstance } from '../lib/axios';
 import { toast } from 'react-hot-toast';
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
+const BASE_URL="http://localhost:5000"
 
 export const useAuthStore = create((set,get) => ({
   authUser: null,
@@ -32,7 +32,6 @@ export const useAuthStore = create((set,get) => ({
  SignUp: async (formData) => {
   set({ isSigningup: true });
   console.log(formData);
-  const Login=new useAuthStore();
   try {
     const res = await axiosInstance.post('/auth/signup', formData);
     
@@ -43,7 +42,7 @@ export const useAuthStore = create((set,get) => ({
       password: res.data.password,
         
     });
-    toast.success('Signup successful');
+    toast.success('Account created successfully!');
   } catch (err) {
     console.error('Signup failed:', err.response?.data || err.message);
   } finally {
