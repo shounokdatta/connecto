@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5000/api/',
+    baseURL: 'https://connecto-pi.vercel.app/',
     withCredentials: true,
     headers: {
     'Content-Type': 'application/json',
