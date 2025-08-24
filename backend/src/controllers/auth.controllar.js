@@ -26,6 +26,7 @@ export const signup = async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
+      profilepic,
     });
 
     if (newUser) {
@@ -54,7 +55,7 @@ export const login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user) {
+    if (!user) {``
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
@@ -87,23 +88,19 @@ export const logout = (req, res) => {
   }
 
 };
-
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic } = req.body;
+    const {profilepic} = req.body;
     const userId = req.user._id;
-
-    if (!profilePic) {
+    if (!profilepic) {
       return res.status(400).json({ message: "Profile pic is required" });
     }
-
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const uploadResponse = await cloudinary.uploader.upload(profilepic);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { profilePic: uploadResponse.secure_url },
-      { new: true }
+      { profilepic: uploadResponse.secure_url },
+      { new: true } 
     );
-
     res.status(200).json(updatedUser);
   } catch (error) {
     console.log("error in update profile:", error);

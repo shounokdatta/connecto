@@ -22,7 +22,7 @@ const ProfilePage = () => {
       const base64Image = reader.result;
       setSelectedImg(base64Image);
       console.log("this is serSelectImage on uplode profile pic",base64Image);
-      await updateProfile({ profilepic: base64Image }); // ✅ match backend naming
+      await updateProfile({ profilepic: base64Image }); 
 
     };
   };
@@ -40,9 +40,9 @@ const ProfilePage = () => {
 
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
-              {console.log("this is authUser:-",authUser.profilePicture)}
+              {console.log("this is authUser:-",authUser)}
               <img
-                src={selectedImg || authUser.profilePicture || "/avatar.png"}
+                src={selectedImg || authUser.profilePic}
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
               />
@@ -80,7 +80,6 @@ const ProfilePage = () => {
               </div>
               <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.fullName}</p>
             </div>
-
             <div className="space-y-1.5">
               <div className="text-sm text-zinc-400 flex items-center gap-2">
                 <Mail className="w-4 h-4" />
@@ -89,7 +88,6 @@ const ProfilePage = () => {
               <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.email}</p>
             </div>
           </div>
-
           <div className="mt-6 bg-base-300 rounded-xl p-6">
             <h2 className="text-lg font-medium  mb-4">Account Information</h2>
             <div className="space-y-3 text-sm">

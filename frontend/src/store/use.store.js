@@ -3,7 +3,7 @@ import { axiosInstance } from '../lib/axios';
 import { toast } from 'react-hot-toast';
 import { io } from "socket.io-client";
 
-const BASE_URL="https://connecto-bu6b.vercel.app/"
+const BASE_URL="http://localhost:5000"
 
 export const useAuthStore = create((set,get) => ({
   authUser: null,
@@ -18,7 +18,7 @@ export const useAuthStore = create((set,get) => ({
     try {
       const res = await axiosInstance.get('/auth/check');
       set({
-        authUser: res.data.user,  // Assuming your backend sends a `user` object
+        authUser: res.data.user,  
       });
             console.log("Auth *User:", res.data.user);
 
@@ -77,12 +77,12 @@ login: async (data) => {
     }
   },
   
-  updateProfile: async (profilepic) => {
+    updateProfile: async (profilepic) => {
     console.log("calling updateProfile");
   set({ isUpdatingProfile: true });
 
   try {
-    await axiosInstance.post("/auth/updateProfile", profilepic); // Adjust endpoint if needed
+    await axiosInstance.post("/auth/updateProfile", profilepic); 
     toast.success("Profile updated");
   } catch (err) {
     console.error("Profile update failed:", err?.response?.data || err.message);
